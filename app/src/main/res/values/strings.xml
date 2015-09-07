@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">pakt</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="navigation_drawer_options_array">
+        <item>Home</item>
+        <item>Search</item>
+        <item>Payment Information</item>
+        <item>Settings</item>
+        <item>Policies</item>
+        <item>History</item>
+    </string-array>
+    <string name="opendrawer"> Opening Navigation Drawer</string>
+    <string name="closedrawer"> Closing Navigation Drawer</string>
+</resources>
