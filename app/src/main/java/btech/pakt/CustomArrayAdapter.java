@@ -1,7 +1,6 @@
 package btech.pakt;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,13 @@ import java.util.ArrayList;
 public class CustomArrayAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<String> items = new ArrayList<>();
+    private ArrayList<Item_Description_Class> items = new ArrayList<>();
 
     public CustomArrayAdapter(Context con, ArrayList array){
         this.context = con;
         this.items = array;
-        this.items.add("new");
+        if (!items.get(items.size()-1).getTitle().matches("New"))
+        this.items.add(new Item_Description_Class("New", R.mipmap.ic_add_black_24dp));
     }
 
     @Override
@@ -55,12 +55,9 @@ public class CustomArrayAdapter extends BaseAdapter {
             TextView textView = (TextView) gridView.findViewById(R.id.inventoryItemText);
             ImageView image = (ImageView) gridView.findViewById(R.id.inventoryItemImage);
 
-            textView.setText(items.get(i));
+            textView.setText(items.get(i).getTitle());
 
-            if (items.get(i).matches("new"))
-                image.setImageResource(R.mipmap.ic_add_black_24dp);
-            else
-                image.setImageResource(R.mipmap.ic_launcher);
+                image.setImageResource(items.get(i).getImage());
 
         }else {
             gridView = (View) convertView;

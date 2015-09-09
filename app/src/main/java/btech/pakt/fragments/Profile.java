@@ -1,26 +1,24 @@
 package btech.pakt.fragments;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import btech.pakt.CustomArrayAdapter;
+import btech.pakt.Item_Description_Class;
 import btech.pakt.R;
 
 /**
@@ -30,16 +28,24 @@ public class Profile extends Fragment {
 
     GridView myInventory;
     ImageView profileImage;
-    ArrayList<String> item = new ArrayList<>();
+    ArrayList<Item_Description_Class> items = new ArrayList<>();
+    FragmentManager fm;
+    Item_Profile_Fragment itemProfile;
 
 
-    static final String[] letters = new String[] {
-            "A", "B", "C", "D", "E",
-            "F", "G", "H"};
 
     public Profile() {
         // Required empty public constructor
-        Collections.addAll(item, letters);
+        items.add(new Item_Description_Class("Item1", "This is item1", 22, 100, R.mipmap.ic_launcher));
+        items.add(new Item_Description_Class("Item2", "This is item2", 22, 100, R.mipmap.ic_person_grey600_24dp));
+        items.add(new Item_Description_Class("Item3", "This is item3", 22, 100, R.drawable.material_drawer_badge));
+        items.add(new Item_Description_Class("Item4", "This is item4", 22, 100, R.drawable.material_drawer_circle_mask));
+        items.add(new Item_Description_Class("Item5", "This is item5", 22, 100, R.mipmap.ic_launcher));
+        items.add(new Item_Description_Class("Item6", "This is item6", 22, 100, R.mipmap.ic_person_grey600_24dp));
+        items.add(new Item_Description_Class("Item7", "This is item7", 22, 100, R.mipmap.ic_launcher));
+
+        //fm = getActivity().getFragmentManager();
+
     }
 
 
@@ -51,19 +57,25 @@ public class Profile extends Fragment {
         profileImage = (ImageView) v.findViewById(R.id.profileImage);
 
         myInventory = (GridView) v.findViewById(R.id.myInventoryView);
-        myInventory.setAdapter(new CustomArrayAdapter(getActivity(), item));
+        myInventory.setAdapter(new CustomArrayAdapter(getActivity(), items));
 
         myInventory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Bitmap yourBitmap = BitmapFactory.decodeFile(String.valueOf(R.mipmap.ic_launcher));
-//               // Bitmap resized = Bitmap.createScaledBitmap(yourBitmap,(int)(yourBitmap.getWidth()*0.8), (int)(yourBitmap.getHeight()*0.8), true);
-//               // profileImage.setImageBitmap(yourBitmap);
-//                profileImage.setImageResource(R.mipmap.ic_launcher);
-                Toast.makeText(getActivity(),
+
+                //@TODO - Create item fragment
+
+                /*Toast.makeText(getActivity(),
                         ((TextView) view.findViewById(R.id.inventoryItemText)).getText(),
                         Toast.LENGTH_LONG)
-                        .show();
+                        .show();*/
+                getActivity().getIntent().putExtra("ITEM", items.get(i));
+
+                fm = getActivity().getFragmentManager();
+                 itemProfile = new Item_Profile_Fragment();
+                fm.beginTransaction().replace(R.id.fragmentContainer, itemProfile).addToBackStack("").commit();
+
+
 
             }
         });

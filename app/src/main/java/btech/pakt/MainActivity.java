@@ -1,11 +1,19 @@
 package btech.pakt;
 
+import android.app.Activity;
 import android.app.FragmentManager;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatCallback;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,20 +33,22 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import btech.pakt.fragments.Item_Profile_Fragment;
 import btech.pakt.fragments.Profile;
+import btech.pakt.fragments.Search_Fragment;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends Activity{
 
     // Fragment Manager and Fragments
     FragmentManager fm;
     Profile profile;
+    Item_Profile_Fragment itemDesc;
+    Search_Fragment searchFrag;
 
     // NavDrawer
-    private DrawerLayout DL;
-    private ListView LV;
-    String[] navDrawOptions;
-    ActionBarDrawerToggle actionbarListener;
-
+    Drawer result;
+    Toolbar toolbar;
+    ActionBarDrawerToggle mDrawerToggle;
 
 
 
@@ -47,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        initializeTB();
         initializeFM();
         initializeNavDrw();
 
@@ -57,7 +69,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+      //  getMenuInflater().inflate(R.menu.menu_main, menu);
+
+
         return true;
     }
 
@@ -77,10 +91,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void initializeFM(){
-        profile = new Profile();
+
         fm = getFragmentManager();
 
-        fm.beginTransaction().add(R.id.fragmentContainer, profile).commit();
+        // Initializig Fragments
+        profile = new Profile();
+        itemDesc = new Item_Profile_Fragment();
+        searchFrag = new Search_Fragment();
+
+
+        fm.beginTransaction().add(R.id.fragmentContainer, profile, "home").commit();
+
+       // fm.beginTransaction().add(R.id.fragmentContainer, itemDesc).commit();
     }
 
 
@@ -112,10 +134,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         return false;
                     }
                 })
+
                 .build();
 
 //create the drawer and remember the `Drawer` result object
-        Drawer result = new DrawerBuilder()
+        result = new DrawerBuilder()
                 .withActivity(this)
              //   .withToolbar(toolbar)
                 .withTranslucentStatusBar(false)
@@ -123,36 +146,81 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .withDrawerWidthDp(200)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Home"),
-                        new PrimaryDrawerItem().withName("Search"),
-                        new PrimaryDrawerItem().withName("My History"),
-                        new PrimaryDrawerItem().withName("Payment Info"),
+                        new PrimaryDrawerItem().withName("Home").withTag("home"),
+                        new PrimaryDrawerItem().withName("Search").withTag("search"),
+                        new PrimaryDrawerItem().withName("My History").withTag("history"),
+                        new PrimaryDrawerItem().withName("Payment Info").withTag("paymentInfo"),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName("Settings"),
-                        new SecondaryDrawerItem().withName("Policies")
+                        new SecondaryDrawerItem().withName("Settings").withTag("settings"),
+                        new SecondaryDrawerItem().withName("Policies").withTag("policies")
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         // do something with the clicked item :D
-                        Toast.makeText(getApplicationContext(), drawerItem.toString(),Toast.LENGTH_LONG).show();
 
+                        switch (drawerItem.getTag().toString()) {
+                            case "home":
+                                if (!profile.isVisible()) {
+                                    //Pop all the back stack
+                                    fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                    fm.beginTransaction().replace(R.id.fragmentContainer, profile).commit();
+                                }else
+                                    Log.i("Pressed Home", "Home is visible");
+
+
+                                break;
+                            case "search":
+                                if(!searchFrag.isVisible())
+                                fm.beginTransaction().replace(R.id.fragmentContainer, searchFrag).addToBackStack("toSearch").commit();
+                                break;
+                            default:
+                                Toast.makeText(getApplicationContext(), drawerItem.getTag().toString(), Toast.LENGTH_LONG).show();
+
+                        }
+                        result.closeDrawer();
                         return true;
                     }
                 })
-
+                .withActionBarDrawerToggle(true)
                 .build();
 
-//        result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//        result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,  result.getDrawerLayout(), toolbar,
+                R.string.opendrawer, R.string.closedrawer
+        );
+
+
+
 
     }
+
+    public void initializeTB(){
+
+        toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+
+        toolbar.setLogo(R.mipmap.ic_launcher);
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.offWhite));
+
+
+    }
+
+
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
+
+       // Log.i("Menu Button", "Going Through");
+        if(keyCode == KeyEvent.KEYCODE_MENU){
+            if(!result.isDrawerOpen())
+                result.openDrawer();
+            else
+                result.closeDrawer();
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
+
