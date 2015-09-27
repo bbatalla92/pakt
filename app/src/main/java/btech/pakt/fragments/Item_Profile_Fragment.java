@@ -3,6 +3,7 @@ package btech.pakt.fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,9 @@ public class Item_Profile_Fragment extends Fragment {
     TextView itemPPD;
     TextView itemSD;
     ImageView itemImage;
+
+    //navbar
+    Toolbar toolbar;
 
     public Item_Profile_Fragment() {
         // Required empty public constructor
@@ -50,9 +54,19 @@ public class Item_Profile_Fragment extends Fragment {
         itemSD.setText("$"+item.getSafeDeposit());
         itemImage.setImageResource(item.getImage());
 
+        toolbar = (Toolbar) getActivity().findViewById(R.id.my_awesome_toolbar);
+        toolbar.setTitle("Item Profile");
+        toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getFragmentManager().popBackStack();
+            }
+        });
 
         return v;
     }
+
 
 
 }

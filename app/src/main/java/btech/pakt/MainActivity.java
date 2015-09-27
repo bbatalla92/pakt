@@ -2,14 +2,15 @@ package btech.pakt;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.graphics.drawable.Drawable;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.internal.view.menu.MenuBuilder;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,9 +18,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -34,29 +32,33 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import btech.pakt.fragments.Item_Profile_Fragment;
-import btech.pakt.fragments.Profile;
+import btech.pakt.fragments.Profile_Fragment;
 import btech.pakt.fragments.Search_Fragment;
 
-public class MainActivity extends Activity{
+public class MainActivity extends Activity implements AppCompatCallback{
 
     // Fragment Manager and Fragments
     FragmentManager fm;
-    Profile profile;
+    public Profile_Fragment profile;
     Item_Profile_Fragment itemDesc;
     Search_Fragment searchFrag;
 
     // NavDrawer
-    Drawer result;
-    Toolbar toolbar;
+    public static Drawer result;
     ActionBarDrawerToggle mDrawerToggle;
-
-
+    //Toolbar
+    AppCompatDelegate delegate;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //create the delegate
+        delegate = AppCompatDelegate.create(this, this);
 
+        //call the onCreate() of the AppCompatDelegate
+        delegate.onCreate(savedInstanceState);
 
         initializeTB();
         initializeFM();
@@ -69,7 +71,7 @@ public class MainActivity extends Activity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-      //  getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
 
 
         return true;
@@ -83,11 +85,13 @@ public class MainActivity extends Activity{
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.openNavDraw) {
+            Log.i("Settings", "OPEN SETTINGS");
+            result.openDrawer();
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return  super.onOptionsItemSelected(item);
     }
 
     public void initializeFM(){
@@ -95,7 +99,7 @@ public class MainActivity extends Activity{
         fm = getFragmentManager();
 
         // Initializig Fragments
-        profile = new Profile();
+        profile = new Profile_Fragment();
         itemDesc = new Item_Profile_Fragment();
         searchFrag = new Search_Fragment();
 
@@ -108,7 +112,7 @@ public class MainActivity extends Activity{
 
     private void initializeNavDrw() {
 
-        Toolbar toolbar = new Toolbar(this);
+        final Toolbar toolbar = new Toolbar(this);
 
         toolbar.setTitle("ToolBar");
 
@@ -165,9 +169,8 @@ public class MainActivity extends Activity{
                                     //Pop all the back stack
                                     fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                                     fm.beginTransaction().replace(R.id.fragmentContainer, profile).commit();
-                                }else
-                                    Log.i("Pressed Home", "Home is visible");
 
+                                }else
 
                                 break;
                             case "search":
@@ -192,18 +195,24 @@ public class MainActivity extends Activity{
 
 
 
-
     }
 
     public void initializeTB(){
 
+
+
+        //use the delegate to inflate the layout
+        delegate.setContentView(R.layout.activity_main);
+
+        //add the Toolbar
+        toolbar= (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        delegate.setSupportActionBar(toolbar);
+
+
         toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 
         toolbar.setLogo(R.mipmap.ic_launcher);
-        toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(getResources().getColor(R.color.offWhite));
-
-
     }
 
 
@@ -211,8 +220,7 @@ public class MainActivity extends Activity{
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-
-       // Log.i("Menu Button", "Going Through");
+        Log.i("KEY DOwN Button", "KEY DOWN");
         if(keyCode == KeyEvent.KEYCODE_MENU){
             if(!result.isDrawerOpen())
                 result.openDrawer();
@@ -220,7 +228,30 @@ public class MainActivity extends Activity{
                 result.closeDrawer();
         }
 
+
+        //return  true;
+
+
+
         return super.onKeyDown(keyCode, event);
     }
+
+
+    @Override
+    public void onSupportActionModeStarted(ActionMode mode) {
+
+    }
+
+    @Override
+    public void onSupportActionModeFinished(ActionMode mode) {
+
+    }
+
+    @Nullable
+    @Override
+    public ActionMode onWindowStartingSupportActionMode(ActionMode.Callback callback) {
+        return null;
+    }
+
 }
 

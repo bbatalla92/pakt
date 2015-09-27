@@ -13,12 +13,12 @@ import java.util.ArrayList;
 /**
  * Created by Brennan on 8/27/2015.
  */
-public class CustomArrayAdapter extends BaseAdapter {
+public class CustomInventoryListAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Item_Description_Class> items = new ArrayList<>();
 
-    public CustomArrayAdapter(Context con, ArrayList array){
+    public CustomInventoryListAdapter(Context con, ArrayList array){
         this.context = con;
         this.items = array;
         if (!items.get(items.size()-1).getTitle().matches("New"))

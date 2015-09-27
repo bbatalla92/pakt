@@ -2,11 +2,10 @@ package btech.pakt.fragments;
 
 
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,27 +13,27 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-import btech.pakt.CustomArrayAdapter;
+import btech.pakt.CustomInventoryListAdapter;
 import btech.pakt.Item_Description_Class;
 import btech.pakt.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Profile extends Fragment {
+public class Profile_Fragment extends Fragment {
 
     GridView myInventory;
     ImageView profileImage;
     ArrayList<Item_Description_Class> items = new ArrayList<>();
     FragmentManager fm;
     Item_Profile_Fragment itemProfile;
+    Toolbar toolbar;
 
 
 
-    public Profile() {
+    public Profile_Fragment() {
         // Required empty public constructor
         items.add(new Item_Description_Class("Item1", "This is item1", 22, 100, R.mipmap.ic_launcher));
         items.add(new Item_Description_Class("Item2", "This is item2", 22, 100, R.mipmap.ic_person_grey600_24dp));
@@ -54,10 +53,17 @@ public class Profile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        toolbar = (Toolbar) getActivity().findViewById(R.id.my_awesome_toolbar);
+        toolbar.setNavigationIcon(null);
+        toolbar.setTitle("Home");
+
         profileImage = (ImageView) v.findViewById(R.id.profileImage);
 
         myInventory = (GridView) v.findViewById(R.id.myInventoryView);
-        myInventory.setAdapter(new CustomArrayAdapter(getActivity(), items));
+        myInventory.setAdapter(new CustomInventoryListAdapter(getActivity(), items));
+
+
 
         myInventory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

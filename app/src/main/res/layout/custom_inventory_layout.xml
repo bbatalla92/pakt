@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+xmlns:card_view="http://schemas.android.com/apk/res-auto"
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="80dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center">
 
 
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:id="@+id/inventoryItemImage" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:alpha=".12">
+
+    </View>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/inventoryItemText"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_marginTop="2dp"/>
 
 </LinearLayout>
+</android.support.v7.widget.CardView>
