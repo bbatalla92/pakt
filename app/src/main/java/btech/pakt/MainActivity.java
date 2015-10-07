@@ -31,6 +31,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import btech.pakt.fragments.History_Fragment;
 import btech.pakt.fragments.Item_Profile_Fragment;
 import btech.pakt.fragments.Profile_Fragment;
 import btech.pakt.fragments.Search_Fragment;
@@ -42,6 +43,7 @@ public class MainActivity extends Activity implements AppCompatCallback{
     public Profile_Fragment profile;
     Item_Profile_Fragment itemDesc;
     Search_Fragment searchFrag;
+    History_Fragment historyFrag;
 
     // NavDrawer
     public static Drawer result;
@@ -102,7 +104,7 @@ public class MainActivity extends Activity implements AppCompatCallback{
         profile = new Profile_Fragment();
         itemDesc = new Item_Profile_Fragment();
         searchFrag = new Search_Fragment();
-
+        historyFrag = new History_Fragment();
 
         fm.beginTransaction().add(R.id.fragmentContainer, profile, "home").commit();
 
@@ -175,7 +177,12 @@ public class MainActivity extends Activity implements AppCompatCallback{
                                 break;
                             case "search":
                                 if(!searchFrag.isVisible())
-                                fm.beginTransaction().replace(R.id.fragmentContainer, searchFrag).addToBackStack("toSearch").commit();
+                                    fm.beginTransaction().replace(R.id.fragmentContainer, searchFrag).addToBackStack("toSearch").commit();
+                                break;
+                            case "history":
+                                if(!searchFrag.isVisible())
+                                    fm.beginTransaction().replace(R.id.fragmentContainer, historyFrag).addToBackStack("toHistory").commit();
+
                                 break;
                             default:
                                 Toast.makeText(getApplicationContext(), drawerItem.getTag().toString(), Toast.LENGTH_LONG).show();

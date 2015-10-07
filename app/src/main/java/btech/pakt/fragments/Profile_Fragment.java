@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -30,6 +35,10 @@ public class Profile_Fragment extends Fragment {
     FragmentManager fm;
     Item_Profile_Fragment itemProfile;
     Toolbar toolbar;
+
+    // Drop down menu
+    FloatingActionButton fab;
+    LinearLayout dropDownLayout;
 
 
 
@@ -63,6 +72,7 @@ public class Profile_Fragment extends Fragment {
         myInventory = (GridView) v.findViewById(R.id.myInventoryView);
         myInventory.setAdapter(new CustomInventoryListAdapter(getActivity(), items));
 
+        dropDown(v);
 
 
         myInventory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -78,15 +88,39 @@ public class Profile_Fragment extends Fragment {
                 getActivity().getIntent().putExtra("ITEM", items.get(i));
 
                 fm = getActivity().getFragmentManager();
-                 itemProfile = new Item_Profile_Fragment();
+                itemProfile = new Item_Profile_Fragment();
                 fm.beginTransaction().replace(R.id.fragmentContainer, itemProfile).addToBackStack("").commit();
-
 
 
             }
         });
 
         return v;
+    }
+
+    private void dropDown(View v){
+        fab = (FloatingActionButton) v.findViewById(R.id.fab);
+
+        dropDownLayout = (LinearLayout) v.findViewById(R.id.dropDownBio);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dropDownLayout.getVisibility() == View.VISIBLE){
+                   // YoYo.with(Techniques.FadeOutUp).delay(500).playOn(dropDownLayout);
+                    dropDownLayout.setVisibility(View.GONE);
+
+
+                    fab.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+
+                }else{
+                    dropDownLayout.setVisibility(View.VISIBLE);
+                   // YoYo.with(Techniques.FadeIn).delay(500).playOn(dropDownLayout);
+                    fab.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+                }
+            }
+        });
+
+
     }
 
 
