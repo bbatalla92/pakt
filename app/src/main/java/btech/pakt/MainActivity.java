@@ -1,16 +1,14 @@
 package btech.pakt;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
+
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.internal.view.menu.MenuBuilder;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -36,7 +34,7 @@ import btech.pakt.fragments.Item_Profile_Fragment;
 import btech.pakt.fragments.Profile_Fragment;
 import btech.pakt.fragments.Search_Fragment;
 
-public class MainActivity extends Activity implements AppCompatCallback{
+public class MainActivity extends FragmentActivity implements AppCompatCallback{
 
     // Fragment Manager and Fragments
     FragmentManager fm;
@@ -98,7 +96,7 @@ public class MainActivity extends Activity implements AppCompatCallback{
 
     public void initializeFM(){
 
-        fm = getFragmentManager();
+        fm = getSupportFragmentManager();
 
         // Initializig Fragments
         profile = new Profile_Fragment();

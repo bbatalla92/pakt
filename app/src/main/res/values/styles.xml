@@ -20,4 +20,12 @@
 
     </style>
 
+    <style name="MyCustomTabLayout" parent="" >
+
+
+     <!--   <item name="tabIndicatorColor">#1DE9B6</item>-->
+
+
+    </style>
+
 </resources>

@@ -24,6 +24,7 @@
         android:id="@+id/itemImage"
         android:background="@color/accent_400"
         android:layout_marginTop="27dp">
+
     <ImageView
         android:layout_width="300dp"
         android:layout_height="200dp"
