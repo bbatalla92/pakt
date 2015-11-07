@@ -2,26 +2,27 @@ package btech.pakt.fragments;
 
 
 
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 
-import android.app.FragmentManager;
+
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
 import btech.pakt.CustomInventoryListAdapter;
+import btech.pakt.FlipAnimation;
 import btech.pakt.Item_Description_Class;
 import btech.pakt.R;
 
@@ -34,13 +35,16 @@ public class Profile_Fragment extends Fragment {
     ImageView profileImage;
     ArrayList<Item_Description_Class> items = new ArrayList<>();
     FragmentManager fm;
-    Item_Profile_Fragment itemProfile;
     Toolbar toolbar;
 
     // Drop down menu
     FloatingActionButton fab;
     LinearLayout dropDownLayout;
 
+    // Globalize Fragment Layout for view flip
+    View v;
+
+    FrameLayout headerContainer;
 
 
     public Profile_Fragment() {
@@ -53,7 +57,6 @@ public class Profile_Fragment extends Fragment {
         items.add(new Item_Description_Class("Item6", "This is item6", 22, 100, R.mipmap.ic_person_grey600_24dp));
         items.add(new Item_Description_Class("Item7", "This is item7", 22, 100, R.mipmap.ic_launcher));
 
-        //fm = getActivity().getFragmentManager();
 
     }
 
@@ -62,8 +65,36 @@ public class Profile_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+        v = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        initialize(v);
+
+        fm = getActivity().getSupportFragmentManager();//getActivity().getFragmentManager();
+
+        headerContainer = (FrameLayout) v.findViewById(R.id.headerContainer);
+
+/*        headerContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flipCard();
+            }
+        });*/
+
+        headerContainer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                flipCard();
+                return false;
+            }
+        });
+
+
+
+        return v;
+    }
+
+    public void initialize(View v){
         toolbar = (Toolbar) getActivity().findViewById(R.id.my_awesome_toolbar);
         toolbar.setNavigationIcon(null);
         toolbar.setTitle("Home");
@@ -73,56 +104,47 @@ public class Profile_Fragment extends Fragment {
         myInventory = (GridView) v.findViewById(R.id.myInventoryView);
         myInventory.setAdapter(new CustomInventoryListAdapter(getActivity(), items));
 
-        dropDown(v);
+
 
 
         myInventory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                //@TODO - Create item fragment
-
-                /*Toast.makeText(getActivity(),
-                        ((TextView) view.findViewById(R.id.inventoryItemText)).getText(),
-                        Toast.LENGTH_LONG)
-                        .show();*/
                 getActivity().getIntent().putExtra("ITEM", items.get(i));
 
-                fm = getActivity().getFragmentManager();
-                itemProfile = new Item_Profile_Fragment();
-                fm.beginTransaction().replace(R.id.fragmentContainer, itemProfile).addToBackStack("").commit();
+                fm.beginTransaction().replace(R.id.fragmentContainer, new Item_Profile_Fragment()).addToBackStack("").commit();
 
 
             }
         });
-
-        return v;
     }
 
-    private void dropDown(View v){
-        fab = (FloatingActionButton) v.findViewById(R.id.fab);
 
-        dropDownLayout = (LinearLayout) v.findViewById(R.id.dropDownBio);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(dropDownLayout.getVisibility() == View.VISIBLE){
-                   // YoYo.with(Techniques.FadeOutUp).delay(500).playOn(dropDownLayout);
-                    dropDownLayout.setVisibility(View.GONE);
+        public void flipCard(){
+            View rootLayout = v.findViewById(R.id.headerContainer);
+            View cardFace = v.findViewById(R.id.main_activity_card_face);
+            View cardBack = v.findViewById(R.id.main_activity_card_back);
 
+            FlipAnimation flipAnimation = new FlipAnimation(cardFace, cardBack);
 
-                    fab.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-
-                }else{
-                    dropDownLayout.setVisibility(View.VISIBLE);
-                   // YoYo.with(Techniques.FadeIn).delay(500).playOn(dropDownLayout);
-                    fab.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
-                }
+            if (cardFace.getVisibility() == View.GONE)
+            {
+                flipAnimation.reverse();
             }
-        });
+            rootLayout.startAnimation(flipAnimation);
+        }
 
 
-    }
+
+
+
+
+
+
 
 
 }
+
+
+

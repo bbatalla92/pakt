@@ -5,125 +5,181 @@
     android:layout_height="match_parent"
     tools:context="btech.pakt.fragments.Profile_Fragment"
     android:background="@color/offWhite"
-    android:id="@+id/mainView">
+    android:id="@+id/mainView"
+    android:padding="0dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profileImage"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:src="@mipmap/ic_person_grey600_24dp"
-            app:border_width="2dp"
-            app:border_color="@color/blue_grey_700"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:name="btech.pakt.fragments.ProfileHeaderFragment"
+        android:id="@+id/headerContainer"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        tools:layout="@layout/fragment_profileheader"
+        android:clickable="true" >
 
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Name"
-            android:id="@+id/textView"
-            android:layout_below="@+id/profileImage"
-            android:layout_alignRight="@+id/profileImage"
-            android:layout_alignEnd="@+id/profileImage"
-            android:layout_marginRight="23dp"
-            android:layout_marginEnd="23dp" />
-
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/profileImage"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Total Made:"
-                android:id="@+id/textView2"
-                android:textSize="12sp" />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Items Out: "
-                android:id="@+id/textView3"
-                android:textSize="12sp" />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Blah blah: "
-                android:id="@+id/textView4"
-                android:textSize="12sp" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        android:alpha=".12"
-        android:id="@+id/view2"
-        android:layout_marginBottom="20dp"
-        android:layout_alignBottom="@+id/fab"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:src="@drawable/ic_play_arrow_black_24dp"
-            fab:fab_colorNormal="@color/accent_500"
-            fab:fab_colorPressed="@color/accent_700"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <LinearLayout
-            android:orientation="vertical"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/view2"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/dropDownBio"
-            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_margin="0dp"
+            android:id="@+id/main_activity_card_face"
+
+            >
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/waterfall"
+                android:scaleType="fitXY"
+                android:contentDescription="" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                >
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profileImage"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:src="@mipmap/ic_person_grey600_24dp"
+                    app:border_width="2dp"
+                    app:border_color="@color/white"
+                    android:paddingTop="10dp"
+                    android:layout_marginTop="50dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Name"
+                    android:id="@+id/textView14" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_margin="0dp"
             android:visibility="gone"
-            android:background="@color/md_grey_500">
+            android:id="@+id/main_activity_card_back"
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Bio"
-                android:id="@+id/textView12"
-                android:longClickable="true"
-                android:gravity="center"
-                android:layout_marginTop="5dp"
-                android:visibility="visible" />
+            >
 
-            <TextView
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Hi, I am Brennan, I created this app with the goal of giving society what it wants to be a true sharing economy."
-                android:id="@+id/textView13"
-                android:padding="5dp" />
-        </LinearLayout>
+                android:layout_height="200dp"
+                android:src="@color/accent"
+                android:scaleType="fitXY"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center"
+                    android:weightSum="100">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="50"
+                        android:padding="5dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/profileImage"
+                            android:layout_width="60dp"
+                            android:layout_height="80dp"
+                            android:src="@mipmap/ic_person_grey600_24dp"
+                            app:border_width="2dp"
+                            app:border_color="@color/white"
+                            android:paddingTop="10dp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Name"
+                            android:id="@+id/textView3" />
+                    </LinearLayout>
+
+
+
+
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/linearLayout"
+                        android:layout_weight="50"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Bio"
+                            android:id="@+id/textView" />
+
+                        <TextView
+                            android:layout_width="288dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Hi, I am Brennan, I created this app with the goal of giving society what it wants to be a true sharing economy.&quot;"
+                            android:id="@+id/textView2"
+                            android:textSize="15sp"
+                            android:layout_weight="0.39" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Home Town"
+                            android:id="@+id/textView4"
+                            android:layout_marginTop="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Lacey Township, NJ"
+                            android:id="@+id/textView12" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+    </FrameLayout>
 
 
 
@@ -133,15 +189,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/myInventoryView"
-        android:layout_below="@+id/dropDownBio"
+        android:layout_below="@+id/headerContainer"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-
         android:columnWidth="80dp"
         android:numColumns="auto_fit"
         android:gravity="center"
-        android:stretchMode="columnWidth"/>
+        android:stretchMode="columnWidth"
+        android:layout_margin="10dp" />
+
 
 </RelativeLayout>
 

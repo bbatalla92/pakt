@@ -15,7 +15,7 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-import btech.pakt.Custom_Listview_Adapter;
+import btech.pakt.Custom_Search_List_Adapter;
 import btech.pakt.Item_Description_Class;
 import btech.pakt.R;
 
@@ -27,7 +27,7 @@ public class Search_Fragment extends Fragment {
     //Custom listview
     RecyclerView recView;
     List<Item_Description_Class> itemList = new ArrayList<>();
-    Custom_Listview_Adapter listAdapter;
+    Custom_Search_List_Adapter listAdapter;
 
     //Layout Widgets
     SearchView search;
@@ -64,9 +64,9 @@ public class Search_Fragment extends Fragment {
         recView.setLayoutManager(llm);
 
         itemList.add(new Item_Description_Class("blah", R.drawable.ic_plusone_medium_off_client));
-        itemList.add(new Item_Description_Class("blah", R.drawable.ic_plusone_medium_off_client));
+        itemList.add(new Item_Description_Class("shotty", R.drawable.ic_plusone_medium_off_client));
 
-        listAdapter = new Custom_Listview_Adapter(itemList, getActivity(), R.layout.custom_list_item_1);
+        listAdapter = new Custom_Search_List_Adapter(itemList, getActivity());
 
         recView.setAdapter(listAdapter);
 
@@ -75,7 +75,9 @@ public class Search_Fragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getFragmentManager().popBackStack();     //.replace(R.id.fragmentContainer, new Profile_Fragment());
+
+                getActivity().getSupportFragmentManager().popBackStack();     //.replace(R.id.fragmentContainer, new Profile_Fragment())
+
             }
         });
 

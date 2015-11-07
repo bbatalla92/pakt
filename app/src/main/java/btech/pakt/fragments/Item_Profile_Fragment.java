@@ -2,8 +2,12 @@ package btech.pakt.fragments;
 
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +21,7 @@ import btech.pakt.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Item_Profile_Fragment extends Fragment {
+public class Item_Profile_Fragment extends Fragment{
 
 
     TextView itemTitle;
@@ -25,6 +29,7 @@ public class Item_Profile_Fragment extends Fragment {
     TextView itemPPD;
     TextView itemSD;
     ImageView itemImage;
+
 
     //navbar
     Toolbar toolbar;
@@ -50,23 +55,30 @@ public class Item_Profile_Fragment extends Fragment {
 
         itemTitle.setText(item.getTitle());
         itemDescription.setText(item.getDescription());
-        itemPPD.setText("$"+item.getPricePerDay());
-        itemSD.setText("$"+item.getSafeDeposit());
+        itemPPD.setText("$" + item.getPricePerDay());
+        itemSD.setText("$" + item.getSafeDeposit());
         itemImage.setImageResource(item.getImage());
 
+
+
+        initToolbar();
+
+        return v;
+    }
+
+    public void initToolbar(){
         toolbar = (Toolbar) getActivity().findViewById(R.id.my_awesome_toolbar);
         toolbar.setTitle("Item Profile");
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getFragmentManager().popBackStack();
+
+                Log.i("BLAH", "BLAH");
+                getActivity().getSupportFragmentManager().popBackStack();
+
             }
         });
-
-        return v;
     }
-
-
 
 }

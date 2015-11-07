@@ -12,31 +12,60 @@
     android:layout_marginTop="5dp">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:weightSum="1">
 
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconImage"
+            android:clickable="true"
+            android:focusableInTouchMode="false"
+            android:contextClickable="true"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/common_ic_googleplayservices" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textView6" />
+            android:text="Title"
+            android:id="@+id/title"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="top" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/textView8" />
+            android:text="di. Miles"
+            android:id="@+id/textView6"
+            android:layout_marginLeft="30dp" />
 
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/textView10" />
+            android:layout_marginLeft="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Price/day"
+                android:id="@+id/textView8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Owner Rating"
+                android:id="@+id/textView10" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

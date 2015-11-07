@@ -78,4 +78,5 @@ public class Item_Description_Class implements Serializable {
     public void setImage(int image) {
         this.image = image;
     }
+
 }

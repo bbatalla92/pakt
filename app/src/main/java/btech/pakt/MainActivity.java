@@ -147,7 +147,7 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
              //   .withToolbar(toolbar)
                 .withTranslucentStatusBar(false)
                 .withActionBarDrawerToggle(false)
-                .withDrawerWidthDp(200)
+                .withDrawerWidthDp(280)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Home").withTag("home"),
@@ -167,8 +167,9 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
                             case "home":
                                 if (!profile.isVisible()) {
                                     //Pop all the back stack
-                                    fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
                                     fm.beginTransaction().replace(R.id.fragmentContainer, profile).commit();
+                                    fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                                 }else
 
@@ -218,7 +219,34 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
 
         toolbar.setLogo(R.mipmap.ic_launcher);
         toolbar.setTitleTextColor(getResources().getColor(R.color.offWhite));
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -226,20 +254,31 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         Log.i("KEY DOwN Button", "KEY DOWN");
-        if(keyCode == KeyEvent.KEYCODE_MENU){
-            if(!result.isDrawerOpen())
-                result.openDrawer();
-            else
-                result.closeDrawer();
+
+        switch(keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+
+                if (!result.isDrawerOpen())
+                    result.openDrawer();
+                else {
+                    result.closeDrawer();
+                }
+                break;
+           /* case KeyEvent.KEYCODE_BACK:
+                if (!profile.isVisible()) {
+                    //Pop all the back stack
+                    fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    fm.beginTransaction().replace(R.id.fragmentContainer, profile).commit();
+
+                }*/
         }
-
-
         //return  true;
 
 
 
         return super.onKeyDown(keyCode, event);
     }
+
 
 
     @Override

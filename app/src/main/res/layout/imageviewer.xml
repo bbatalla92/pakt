@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:weightSum="1"
+    android:id="@+id/iconSearchImageContainer"
+    android:orientation="horizontal">
+
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageLeft"
+        android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
+        android:background="@null" />
+
+    <ImageView android:layout_width="290dp"
+        android:layout_height="290dp" android:src="@mipmap/ic_launcher"
+        android:layout_weight="0.79"
+        android:id="@+id/iconSearchImage" />
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageRight"
+        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:background="@null" />
+
+</LinearLayout>

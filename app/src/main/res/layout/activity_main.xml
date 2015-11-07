@@ -33,7 +33,7 @@
         android:layout_below="@+id/my_awesome_toolbar"
         android:layout_centerHorizontal="true"
         android:id="@+id/fragmentContainer"
-        android:padding="10dp"
+        android:padding="0dp"
         android:paddingTop="0dp"/>
 
 

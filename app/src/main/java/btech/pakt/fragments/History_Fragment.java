@@ -75,17 +75,11 @@ public class History_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                getActivity().getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().popBackStack();
 
             }
         });
 
     }
 
-
-//    @Override
-//    public void onAttach(Activity activity) {
-//        myContext=(FragmentActivity) activity;
-//        super.onAttach(activity);
-//    }
 }
