@@ -2,6 +2,7 @@ package btech.pakt;
 
 import android.app.Activity;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -28,6 +33,9 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import btech.pakt.fragments.History_Fragment;
 import btech.pakt.fragments.Item_Profile_Fragment;
@@ -49,6 +57,9 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
     //Toolbar
     AppCompatDelegate delegate;
     Toolbar toolbar;
+    SharedPrefs sharedPrefs;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +71,28 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
         //call the onCreate() of the AppCompatDelegate
         delegate.onCreate(savedInstanceState);
 
+
+
+        genInitialize();
         initializeTB();
-        initializeFM();
         initializeNavDrw();
 
 
+
+    }
+
+    private void genInitialize() {
+        sharedPrefs = new SharedPrefs(this);
+
+        fm = getSupportFragmentManager();
+
+        // Initializig Fragments
+        profile = new Profile_Fragment();
+        itemDesc = new Item_Profile_Fragment();
+        searchFrag = new Search_Fragment();
+        historyFrag = new History_Fragment();
+
+        fm.beginTransaction().add(R.id.fragmentContainer, profile, "home").commit();
 
     }
 
@@ -94,20 +122,7 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
         return  super.onOptionsItemSelected(item);
     }
 
-    public void initializeFM(){
 
-        fm = getSupportFragmentManager();
-
-        // Initializig Fragments
-        profile = new Profile_Fragment();
-        itemDesc = new Item_Profile_Fragment();
-        searchFrag = new Search_Fragment();
-        historyFrag = new History_Fragment();
-
-        fm.beginTransaction().add(R.id.fragmentContainer, profile, "home").commit();
-
-       // fm.beginTransaction().add(R.id.fragmentContainer, itemDesc).commit();
-    }
 
 
     private void initializeNavDrw() {
@@ -138,6 +153,7 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
                         return false;
                     }
                 })
+                .withSelectionListEnabledForSingleProfile(false)
 
                 .build();
 
@@ -154,6 +170,9 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
                         new PrimaryDrawerItem().withName("Search").withTag("search"),
                         new PrimaryDrawerItem().withName("My History").withTag("history"),
                         new PrimaryDrawerItem().withName("Payment Info").withTag("paymentInfo"),
+                        new PrimaryDrawerItem().withName("Messages").withTag("messages"),
+                        new PrimaryDrawerItem().withName("Log Out").withTag("logOut"),
+
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withName("Settings").withTag("settings"),
                         new SecondaryDrawerItem().withName("Policies").withTag("policies")
@@ -168,7 +187,7 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
                                 if (!profile.isVisible()) {
                                     //Pop all the back stack
 
-                                    fm.beginTransaction().replace(R.id.fragmentContainer, profile).commit();
+                                    fm.popBackStack();
                                     fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                                 }else
@@ -182,6 +201,12 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
                                 if(!searchFrag.isVisible())
                                     fm.beginTransaction().replace(R.id.fragmentContainer, historyFrag).addToBackStack("toHistory").commit();
 
+                                break;
+                            case "logOut":
+                                sharedPrefs.logOut();
+                                Intent i = new Intent(getApplicationContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                               getApplicationContext().startActivity(i);
+                                finish();
                                 break;
                             default:
                                 Toast.makeText(getApplicationContext(), drawerItem.getTag().toString(), Toast.LENGTH_LONG).show();

@@ -17,4 +17,8 @@
     </string-array>
     <string name="opendrawer"> Opening Navigation Drawer</string>
     <string name="closedrawer"> Closing Navigation Drawer</string>
+
+    <string name="facebook_app_id">547993755357523</string>
+
+
 </resources>

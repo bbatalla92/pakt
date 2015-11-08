@@ -15,7 +15,6 @@
         android:id="@+id/headerContainer"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        tools:layout="@layout/fragment_profileheader"
         android:clickable="true" >
 
 
@@ -35,7 +34,8 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/waterfall"
                 android:scaleType="fitXY"
-                android:contentDescription="" />
+                android:contentDescription=""
+                android:id="@+id/headerImage" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Name"
-                    android:id="@+id/textView14" />
+                    android:id="@+id/userName" />
 
             </LinearLayout>
 
@@ -110,7 +110,7 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/profileImage"
+                            android:id="@+id/profileImageCard"
                             android:layout_width="60dp"
                             android:layout_height="80dp"
                             android:src="@mipmap/ic_person_grey600_24dp"
@@ -124,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Name"
-                            android:id="@+id/textView3" />
+                            android:id="@+id/userNameCard" />
                     </LinearLayout>
 
 

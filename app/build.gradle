@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "btech.pakt"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -44,4 +44,9 @@ dependencies {
     //Google play Services
     compile 'com.google.android.gms:play-services:8.1.0'
 
+    //Facebook Library
+    compile 'com.sromku:simple-fb:4.1.1'
+
+    // For downloading images
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

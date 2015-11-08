@@ -1,14 +1,35 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="batallatech.opinionnow.batallatech.fragments.history_fragments.Rented_Out_History_Fragment">
+    tools:context="batallatech.opinionnow.batallatech.fragments.history_fragments.Rented_Out_History_Fragment"
+    android:orientation="vertical"
+    android:gravity="center">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <ImageView
-        android:layout_width="292dp"
-        android:layout_height="292dp"
-        android:id="@+id/imageView"
-        android:layout_gravity="center_horizontal|top"
-        android:src="@android:drawable/btn_star_big_on" />
-</FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Haven&apos;t rented out anything."
+            android:id="@+id/textView13"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:alpha=".4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Why don&apos;t you?"
+            android:id="@+id/textView15"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:alpha=".4" />
+
+</LinearLayout>
