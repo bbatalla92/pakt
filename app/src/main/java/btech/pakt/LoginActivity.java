@@ -1,25 +1,37 @@
 package btech.pakt;
 
 import android.content.Intent;
+
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.facebook.CallbackManager;
+
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
+import com.sromku.simple.fb.entities.Profile;
 import com.sromku.simple.fb.listeners.OnLoginListener;
+import com.sromku.simple.fb.listeners.OnProfileListener;
+import com.sromku.simple.fb.utils.Attributes;
+import com.sromku.simple.fb.utils.PictureAttributes;
+
+import java.io.Serializable;
 import java.util.List;
+import java.util.logging.LogRecord;
 
 public class LoginActivity extends AppCompatActivity {
 
     Button loginButton;
-    CallbackManager callbackManager;
-    static final String TAG = "LogIn Activity";
+    static final String TAG = "LOGIN ACTIVITY";
     SharedPrefs sharedPrefs;
+    UserData user;
+
+    Handler handlerTimer;
 
     //Facebook permissions
     Permission[] permissions = new Permission[] {
@@ -39,10 +51,13 @@ public class LoginActivity extends AppCompatActivity {
         mSimpleFacebook = SimpleFacebook.getInstance(this);
         sharedPrefs = new SharedPrefs(this);
 
+        handlerTimer = new Handler();
+
         if(sharedPrefs.checkLoggedIn()){
-            Intent intent = new Intent(this, MainActivity.class);
-            this.startActivity(intent);
-            finish();
+
+            getUserData();
+
+
         }
 
         sharedPrefs =  new SharedPrefs(getApplicationContext());
@@ -65,7 +80,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onLogin(String accessToken, List<Permission> acceptedPermissions, List<Permission> declinedPermissions) {
                 // change the state of the button or do whatever you want
                 Log.i(TAG, "Logged in");
+                getUserData();
                 sharedPrefs.setLoggedIn(true);
+
+
+
 
             }
 
@@ -96,6 +115,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+
+
     }
 
 
@@ -114,10 +135,63 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mSimpleFacebook.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-        Intent intent = new Intent(this, MainActivity.class);
-        this.startActivity(intent);
-        finish();
+        Log.i(TAG, "onActivityResult");
+        nextActivity();
     }
 
+    public void nextActivity() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getApplicationContext().startActivity(intent);
+                finish();
+            }
+        }, 300);
+
+
+    }
+
+    public void getUserData(){
+
+        PictureAttributes pictureAttributes = Attributes.createPictureAttributes();
+        pictureAttributes.setHeight(500);
+        pictureAttributes.setWidth(500);
+        pictureAttributes.setType(PictureAttributes.PictureType.SMALL);
+
+        Profile.Properties properties = new Profile.Properties.Builder()
+                .add(Profile.Properties.FIRST_NAME)
+                .add(Profile.Properties.COVER)
+                .add(Profile.Properties.PICTURE, pictureAttributes)
+                .add(Profile.Properties.LOCATION)
+                .build();
+
+
+
+        OnProfileListener onProfileListener = new OnProfileListener() {
+            @Override
+            public void onComplete(Profile profile) {
+
+                    sharedPrefs.setFirstName(profile.getFirstName());
+
+                    sharedPrefs.setProPic(profile.getPicture());
+
+                    sharedPrefs.setCoverURL(profile.getCover().getSource());
+
+
+            }
+
+        };
+
+        mSimpleFacebook.getProfile(properties, onProfileListener);
+
+        Log.i(TAG + " P_url", sharedPrefs.getProPic());
+        Log.i(TAG, sharedPrefs.getFirstName());
+        Log.i(TAG + " C_url", ": " + sharedPrefs.getCoverURL());
+
+        if (sharedPrefs.checkLoggedIn())
+            nextActivity();
+    }
 
 }

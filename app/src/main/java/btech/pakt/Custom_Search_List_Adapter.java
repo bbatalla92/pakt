@@ -1,9 +1,12 @@
 package btech.pakt;
 
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,6 +30,7 @@ public class Custom_Search_List_Adapter extends RecyclerView.Adapter<Custom_Sear
 
     List<Item_Description_Class> itemsList;
     Context con;
+    int count = 0;
 
     public Custom_Search_List_Adapter(List<Item_Description_Class> itemsList, Context con){
         this.itemsList = itemsList;
@@ -49,7 +54,7 @@ public class Custom_Search_List_Adapter extends RecyclerView.Adapter<Custom_Sear
         final Item_Description_Class object = itemsList.get(i);
 
         view.Title.setText(object.getTitle());
-       view.IconImage.setImageResource(object.getImage());
+       view.IconImage.setImageResource((Integer) object.getImage().get(0));
 
 
 
@@ -64,7 +69,7 @@ public class Custom_Search_List_Adapter extends RecyclerView.Adapter<Custom_Sear
                 YoYo.with(Techniques.Pulse)
                         .duration(700)
                         .playOn(v);
-                imagePopup();
+                imagePopup(i);
             }
         });
     }
@@ -74,31 +79,37 @@ public class Custom_Search_List_Adapter extends RecyclerView.Adapter<Custom_Sear
         return itemsList.size();
     }
 
-    public void imagePopup(){
+    public void imagePopup(int i){
 
+        Item_Description_Class object = itemsList.get(i);
+        final ArrayList imageList = object.getImage();
+        final int numImages = imageList.size()-1;
 
 
         Dialog settingsDialog = new Dialog(con);
         settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        settingsDialog.setContentView(LayoutInflater.from(con).inflate(R.layout.imageviewer
-                , null));
+        View v = LayoutInflater.from(con).inflate(R.layout.imageviewer
+                , null);
+        settingsDialog.setContentView(v);
         settingsDialog.show();
 
 
         ImageButton nxtImage = (ImageButton) settingsDialog.findViewById(R.id.imageRight);
         ImageButton prevImage = (ImageButton) settingsDialog.findViewById(R.id.imageLeft);
 
-        nxtImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(con, "Next Image", Toast.LENGTH_LONG).show();
-            }
-        });
+        final ImageView image = (ImageView) settingsDialog.findViewById(R.id.iconSearchImage);
+        image.setImageResource((Integer) imageList.get(0));
 
-        prevImage.setOnClickListener(new View.OnClickListener() {
+
+        image.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(con, "prev Image", Toast.LENGTH_LONG).show();
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if(count > numImages)
+                    count = 0;
+                image.setImageResource((Integer) imageList.get(count++));
+                Log.i("ADAPTER", ""+count);
+                return false;
             }
         });
 

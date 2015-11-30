@@ -3,6 +3,8 @@ package btech.pakt;
 import android.graphics.drawable.Drawable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Brennan on 9/7/2015.
@@ -13,29 +15,29 @@ public class Item_Description_Class implements Serializable {
     String description;
     int pricePerDay;
     int safeDeposit;
-    int image;
+    ArrayList images = new ArrayList<>();
 
     public Item_Description_Class(String title,
                                   String description,
                                   int pricePerDay,
                                   int safeDeposit,
-                                  int image
+                                  ArrayList images
     ){
 
         this.title = title;
         this.description = description;
         this.pricePerDay = pricePerDay;
         this.safeDeposit = safeDeposit;
-        this.image = image;
+        this.images = images;
 
     }
 
     public Item_Description_Class(String title,
-                                  int image
+                                  ArrayList images
     ){
 
         this.title = title;
-        this.image = image;
+        this.images = images;
 
     }
 
@@ -71,12 +73,12 @@ public class Item_Description_Class implements Serializable {
         this.pricePerDay = pricePerDay;
     }
 
-    public int getImage() {
-        return image;
+    public ArrayList getImage() {
+        return images;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setImage(ArrayList image) {
+        this.images = image;
     }
 
 }

@@ -15,7 +15,10 @@ import com.sromku.simple.fb.listeners.OnLogoutListener;
 public class SharedPrefs {
 
     private static final String LOGGEDIN = "loggedIn";
-    private static final String FB_TOKEN = "accessToken";
+    private static final String FIRST_NAME= "fName";
+    private static final String MAIN_PIC= "mainPic";
+    private static final String COVER_PIC = "coverURL";
+
     private static  final String PREFS_NAME = "sharedPrefs";
     private static  final String TAG = "sharedPrefs";
 
@@ -35,10 +38,54 @@ public class SharedPrefs {
         editor.apply();
     }
 
+
+
+    public void setFirstName(String fName){
+        SharedPreferences.Editor editor = settingsPrefs.edit();
+        editor.putString(FIRST_NAME, fName);
+        editor.apply();
+    }
+
+
+    public void setProPic(String url){
+        SharedPreferences.Editor editor = settingsPrefs.edit();
+        editor.putString(MAIN_PIC, url);
+        editor.apply();
+    }
+
+
+    public void setCoverURL(String urll){
+        SharedPreferences.Editor editor = settingsPrefs.edit();
+        editor.putString(COVER_PIC, urll);
+        editor.apply();
+    }
+
     public boolean checkLoggedIn(){
 
         return settingsPrefs.getBoolean(LOGGEDIN, false);
     }
+
+
+    public String getFirstName(){
+
+        return settingsPrefs.getString(FIRST_NAME, "");
+    }
+
+
+
+    public String getProPic(){
+
+        return settingsPrefs.getString(MAIN_PIC, "");
+    }
+
+
+
+    public String getCoverURL(){
+
+        return settingsPrefs.getString(COVER_PIC,"");
+    }
+
+
 
     public void logOut(){
         SharedPreferences.Editor editor = settingsPrefs.edit();

@@ -33,6 +33,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.sromku.simple.fb.entities.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,6 +62,7 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,7 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
 
     private void genInitialize() {
         sharedPrefs = new SharedPrefs(this);
+
 
         fm = getSupportFragmentManager();
 
@@ -198,7 +201,7 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
                                     fm.beginTransaction().replace(R.id.fragmentContainer, searchFrag).addToBackStack("toSearch").commit();
                                 break;
                             case "history":
-                                if(!searchFrag.isVisible())
+                                if(!historyFrag.isVisible())
                                     fm.beginTransaction().replace(R.id.fragmentContainer, historyFrag).addToBackStack("toHistory").commit();
 
                                 break;

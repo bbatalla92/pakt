@@ -33,6 +33,8 @@ import com.squareup.picasso.Picasso;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Profile;
 import com.sromku.simple.fb.listeners.OnProfileListener;
+import com.sromku.simple.fb.utils.Attributes;
+import com.sromku.simple.fb.utils.PictureAttributes;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +48,7 @@ import btech.pakt.FlipAnimation;
 import btech.pakt.Item_Description_Class;
 import btech.pakt.MainActivity;
 import btech.pakt.R;
+import btech.pakt.SharedPrefs;
 import btech.pakt.UserData;
 
 /**
@@ -69,8 +72,7 @@ public class Profile_Fragment extends Fragment {
 
     FrameLayout headerContainer;
 
-    //User Info
-    UserData user;
+
     TextView userName;
     TextView userNameCard;
     Picasso p;
@@ -78,18 +80,31 @@ public class Profile_Fragment extends Fragment {
     ImageView profileImage;
     ImageView profileImageCard;
 
+    ArrayList testImages;
+
+    // Shared Preferences
+    SharedPrefs sharedPrefs;
+
+
 
     SimpleFacebook mSimpleFacebook;
 
     public Profile_Fragment() {
         // Required empty public constructor
-        items.add(new Item_Description_Class("Item1", "This is item1", 22, 100, R.mipmap.ic_launcher));
-        items.add(new Item_Description_Class("Item2", "This is item2", 22, 100, R.mipmap.ic_person_grey600_24dp));
-        items.add(new Item_Description_Class("Item3", "This is item3", 22, 100, R.drawable.material_drawer_badge));
-        items.add(new Item_Description_Class("Item4", "This is item4", 22, 100, R.drawable.material_drawer_circle_mask));
-        items.add(new Item_Description_Class("Item5", "This is item5", 22, 100, R.mipmap.ic_launcher));
-        items.add(new Item_Description_Class("Item6", "This is item6", 22, 100, R.mipmap.ic_person_grey600_24dp));
-        items.add(new Item_Description_Class("Item7", "This is item7", 22, 100, R.mipmap.ic_launcher));
+        testImages = new ArrayList<Integer>();
+        testImages.add(R.mipmap.ic_launcher);
+        testImages.add(R.mipmap.ic_person_grey600_24dp);
+        testImages.add(R.drawable.material_drawer_badge);
+
+        items.add(new Item_Description_Class("Item1", "This is item1", 22, 100, testImages));
+        items.add(new Item_Description_Class("Item2", "This is item2", 22, 100, testImages));
+        items.add(new Item_Description_Class("Item3", "This is item3", 22, 100, testImages));
+        items.add(new Item_Description_Class("Item4", "This is item4", 22, 100, testImages));
+        items.add(new Item_Description_Class("Item5", "This is item5", 22, 100, testImages));
+        items.add(new Item_Description_Class("Item6", "This is item6", 22, 100, testImages));
+        items.add(new Item_Description_Class("Item7", "This is item7", 22, 100, testImages));
+
+
 
 
     }
@@ -118,38 +133,13 @@ public class Profile_Fragment extends Fragment {
 
 
 
-        Profile.Properties properties = new Profile.Properties.Builder()
-                .add(Profile.Properties.FIRST_NAME)
-                .add(Profile.Properties.COVER)
-                .add(Profile.Properties.PICTURE)
-                .build();
-
-
-
-
-
-        OnProfileListener onProfileListener = new OnProfileListener() {
-            @Override
-            public void onComplete(Profile profile) {
-
-                userName.setText(profile.getFirstName());
-                userNameCard.setText(profile.getFirstName());
-
-                p.load(profile.getPicture()).into(profileImage);
-                p.load(profile.getPicture()).into(profileImageCard);
-                p.load(profile.getCover().toString()).into(headerImage);
-            }
-
-        };
-
-        mSimpleFacebook.getProfile(properties, onProfileListener );
-
 
         return v;
     }
 
 
     public void initialize(View v){
+        sharedPrefs = new SharedPrefs(getActivity());
         toolbar = (Toolbar) getActivity().findViewById(R.id.my_awesome_toolbar);
         toolbar.setNavigationIcon(null);
         toolbar.setTitle("Home");
@@ -182,7 +172,14 @@ public class Profile_Fragment extends Fragment {
 
         mSimpleFacebook = SimpleFacebook.getInstance();
         p = new Picasso.Builder(getActivity()).build();
-    }
+
+        p.load(sharedPrefs.getProPic()).into(profileImage);
+        p.load(sharedPrefs.getProPic()).into(profileImageCard);
+        p.load(sharedPrefs.getCoverURL()).into(headerImage);
+
+            userName.setText(sharedPrefs.getFirstName());
+            userNameCard.setText(sharedPrefs.getFirstName());
+        }
 
 
         public void flipCard(){
@@ -199,17 +196,6 @@ public class Profile_Fragment extends Fragment {
             rootLayout.startAnimation(flipAnimation);
         }
 
-    //pull image from web
-    public Drawable LoadImageFromWebOperations(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "src name");
-            return d;
-        } catch (Exception e) {
-            Log.i(TAG, e.getLocalizedMessage());
-            return null;
-        }
-    }
 
 
 

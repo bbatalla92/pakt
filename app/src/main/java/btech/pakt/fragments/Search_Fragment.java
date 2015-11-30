@@ -63,8 +63,15 @@ public class Search_Fragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recView.setLayoutManager(llm);
 
-        itemList.add(new Item_Description_Class("blah", R.drawable.ic_plusone_medium_off_client));
-        itemList.add(new Item_Description_Class("shotty", R.drawable.ic_plusone_medium_off_client));
+        ArrayList testItems = new ArrayList();
+        testItems.add(R.drawable.ic_plusone_medium_off_client);
+        testItems.add(R.mipmap.ic_launcher);
+        testItems.add(R.mipmap.ic_person_grey600_24dp);
+        testItems.add(R.drawable.desert);
+
+        itemList.add(new Item_Description_Class("blah1", testItems));
+        itemList.add(new Item_Description_Class("blah2", testItems));
+
 
         listAdapter = new Custom_Search_List_Adapter(itemList, getActivity());
 

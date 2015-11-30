@@ -3,17 +3,18 @@ package btech.pakt.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import btech.pakt.Item_Description_Class;
 import btech.pakt.R;
@@ -28,8 +29,12 @@ public class Item_Profile_Fragment extends Fragment{
     TextView itemDescription;
     TextView itemPPD;
     TextView itemSD;
-    ImageView itemImage;
+    ImageSwitcher itemImages;
 
+    int imageIds[]={R.mipmap.ic_person_grey600_24dp,R.drawable.ic_media_play,R.mipmap.ic_launcher, R.drawable.desert};
+    int currentImage = 0;
+
+    Item_Description_Class item;
 
     //navbar
     Toolbar toolbar;
@@ -45,25 +50,63 @@ public class Item_Profile_Fragment extends Fragment{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_item__profile, container, false);
 
-        Item_Description_Class item = (Item_Description_Class) getActivity().getIntent().getSerializableExtra("ITEM");
+        item = (Item_Description_Class) getActivity().getIntent().getSerializableExtra("ITEM");
 
-        itemTitle = (TextView) v.findViewById(R.id.itemTitle);
+        initialize(v);
+
+        itemImages = (ImageSwitcher) v.findViewById(R.id.imageSwitch);
+        itemImages.setFactory(new ViewSwitcher.ViewFactory() {
+
+            public View makeView() {
+                // TODO Auto-generated method stub
+
+                // Create a new ImageView set it's properties
+                ImageView imageView = new ImageView(getActivity().getApplicationContext());
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                imageView.setImageResource(imageIds[currentImage]);
+                return imageView;
+            }
+        });
+            // Declaring animations
+        Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+
+
+        itemImages.setInAnimation(in);
+        itemImages.setOutAnimation(out);
+
+        itemImages.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int numImages = imageIds.length-1;
+                currentImage++;
+                if(currentImage > numImages )
+                    currentImage =0;
+
+                itemImages.setImageResource(imageIds[currentImage]);
+                return false;
+            }
+        });
+
+
+        initToolbar();
+
+            return v;
+        }
+
+    public void initialize(View v){
+        itemTitle = (TextView) v.findViewById(R.id.title);
         itemDescription = (TextView) v.findViewById(R.id.itemDescription);
-        itemPPD = (TextView) v.findViewById(R.id.itemPPD);
+        itemPPD = (TextView) v.findViewById(R.id.itemRate);
         itemSD = (TextView) v.findViewById(R.id.itemSD);
-        itemImage = (ImageView) v.findViewById(R.id.itemImage1);
+
 
         itemTitle.setText(item.getTitle());
         itemDescription.setText(item.getDescription());
         itemPPD.setText("$" + item.getPricePerDay());
         itemSD.setText("$" + item.getSafeDeposit());
-        itemImage.setImageResource(item.getImage());
 
-
-
-        initToolbar();
-
-        return v;
     }
 
     public void initToolbar(){

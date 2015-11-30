@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Deque;
 
 /**
  * Created by Brennan on 8/27/2015.
@@ -16,13 +17,12 @@ import java.util.ArrayList;
 public class CustomInventoryListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Item_Description_Class> items = new ArrayList<>();
+    private ArrayList items = new ArrayList<>();
 
     public CustomInventoryListAdapter(Context con, ArrayList array){
         this.context = con;
         this.items = array;
-        if (!items.get(items.size()-1).getTitle().matches("New"))
-        this.items.add(new Item_Description_Class("New", R.mipmap.ic_add_black_24dp));
+
     }
 
     @Override
@@ -54,10 +54,11 @@ public class CustomInventoryListAdapter extends BaseAdapter {
             gridView = inflater.inflate(R.layout.custom_inventory_layout, null);
             TextView textView = (TextView) gridView.findViewById(R.id.inventoryItemText);
             ImageView image = (ImageView) gridView.findViewById(R.id.inventoryItemImage);
+            Item_Description_Class ob = (Item_Description_Class) items.get(i);
+            textView.setText(ob.getTitle());
 
-            textView.setText(items.get(i).getTitle());
 
-                image.setImageResource(items.get(i).getImage());
+                image.setImageResource((Integer) ob.getImage().get(0));
 
         }else {
             gridView = (View) convertView;
