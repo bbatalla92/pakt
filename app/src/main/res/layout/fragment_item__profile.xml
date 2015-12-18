@@ -21,6 +21,19 @@
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal" />
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profileImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/ic_person_grey600_24dp"
+            app:border_width="2dp"
+            app:border_color="@color/white"
+            android:paddingTop="10dp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="left|bottom"
+            android:clickable="true" />
+
 
     </FrameLayout>
 
@@ -28,10 +41,11 @@
         android:paddingTop="20dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/itemImage"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout">
 
         <TextView
             android:layout_width="fill_parent"
@@ -70,6 +84,14 @@
             android:gravity="center" />
 
     </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Request Item"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:background="@color/accent_color" />
 
 
 </RelativeLayout>

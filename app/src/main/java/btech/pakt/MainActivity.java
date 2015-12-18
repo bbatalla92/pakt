@@ -138,7 +138,7 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.color.accent_400)
+                .withHeaderBackground(R.color.accent_color)
                 .addProfiles(
                         new ProfileDrawerItem()
                                 .withName("Brennan Batalla")

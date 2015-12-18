@@ -14,10 +14,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
+
+import com.squareup.picasso.Picasso;
 
 import btech.pakt.Item_Description_Class;
 import btech.pakt.R;
+import btech.pakt.SharedPrefs;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,8 +34,11 @@ public class Item_Profile_Fragment extends Fragment{
     TextView itemPPD;
     TextView itemSD;
     ImageSwitcher itemImages;
+    ImageView profileImage;
+    Picasso p;
+    SharedPrefs sharedPrefs;
 
-    int imageIds[]={R.mipmap.ic_person_grey600_24dp,R.drawable.ic_media_play,R.mipmap.ic_launcher, R.drawable.desert};
+    int imageIds[]={R.mipmap.ic_person_grey600_24dp,R.drawable.cityskyline,R.mipmap.ic_launcher, R.drawable.desert};
     int currentImage = 0;
 
     Item_Description_Class item;
@@ -96,16 +103,27 @@ public class Item_Profile_Fragment extends Fragment{
         }
 
     public void initialize(View v){
+        sharedPrefs = new SharedPrefs(getContext());
         itemTitle = (TextView) v.findViewById(R.id.title);
         itemDescription = (TextView) v.findViewById(R.id.itemDescription);
         itemPPD = (TextView) v.findViewById(R.id.itemRate);
         itemSD = (TextView) v.findViewById(R.id.itemSD);
+        profileImage = (ImageView) v.findViewById(R.id.profileImage);
 
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Go to profile", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        p = new Picasso.Builder(getActivity()).build();;
+        p.load(sharedPrefs.getProPic()).into(profileImage);
 
         itemTitle.setText(item.getTitle());
         itemDescription.setText(item.getDescription());
-        itemPPD.setText("$" + item.getPricePerDay());
-        itemSD.setText("$" + item.getSafeDeposit());
+        itemPPD.setText("$" + item.getPricePerDay()+" per day");
+        itemSD.setText("Safety Deposit: $" + item.getSafeDeposit());
 
     }
 

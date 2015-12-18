@@ -82,7 +82,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@color/accent"
+                android:src="@color/accent_color"
                 android:scaleType="fitXY"/>
 
             <RelativeLayout
@@ -195,8 +195,21 @@
         android:numColumns="auto_fit"
         android:gravity="center"
         android:stretchMode="columnWidth"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:background="#ffffff" />
 
+
+    <com.melnykov.fab.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/myInventoryView"
+        android:layout_alignRight="@+id/myInventoryView"
+        android:layout_alignEnd="@+id/myInventoryView"
+        android:layout_margin="16dp"
+        android:src="@mipmap/ic_add_white_24dp"
+        fab:fab_colorNormal="@color/primary"
+        fab:fab_colorPressed="@color/primary_dark"
+        android:id="@+id/addProdButton" />
 
 </RelativeLayout>
 

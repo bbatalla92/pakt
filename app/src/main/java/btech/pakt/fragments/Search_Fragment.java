@@ -64,7 +64,7 @@ public class Search_Fragment extends Fragment {
         recView.setLayoutManager(llm);
 
         ArrayList testItems = new ArrayList();
-        testItems.add(R.drawable.ic_plusone_medium_off_client);
+        testItems.add(R.drawable.cityskyline);
         testItems.add(R.mipmap.ic_launcher);
         testItems.add(R.mipmap.ic_person_grey600_24dp);
         testItems.add(R.drawable.desert);

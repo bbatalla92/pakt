@@ -63,10 +63,6 @@ public class Profile_Fragment extends Fragment {
     Toolbar toolbar;
     final static String TAG = "PROFILE FRAG";
 
-    // Drop down menu
-    FloatingActionButton fab;
-    LinearLayout dropDownLayout;
-
     // Globalize Fragment Layout for view flip
     View v;
 
@@ -88,6 +84,7 @@ public class Profile_Fragment extends Fragment {
 
 
     SimpleFacebook mSimpleFacebook;
+    FloatingActionButton fab;
 
     public Profile_Fragment() {
         // Required empty public constructor
@@ -143,6 +140,7 @@ public class Profile_Fragment extends Fragment {
         toolbar = (Toolbar) getActivity().findViewById(R.id.my_awesome_toolbar);
         toolbar.setNavigationIcon(null);
         toolbar.setTitle("Home");
+        fab = (FloatingActionButton) v.findViewById(R.id.addProdButton);
 
         //User Data
         profileImage = (ImageView) v.findViewById(R.id.profileImage);

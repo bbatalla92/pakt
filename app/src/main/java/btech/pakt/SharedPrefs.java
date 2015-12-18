@@ -103,6 +103,7 @@ public class SharedPrefs {
         mSimpleFacebook = SimpleFacebook.getInstance();
         mSimpleFacebook.logout(onLogoutListener);
 
+        LoginActivity.ref.unauth();
 
     }
 

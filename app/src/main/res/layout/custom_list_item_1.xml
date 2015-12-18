@@ -26,7 +26,7 @@
             android:focusableInTouchMode="false"
             android:contextClickable="true"
             android:layout_marginLeft="8dp"
-            android:src="@drawable/common_ic_googleplayservices" />
+            android:src="@drawable/ic_arrow_drop_down_black_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
