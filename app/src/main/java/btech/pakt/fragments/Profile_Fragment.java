@@ -177,6 +177,15 @@ public class Profile_Fragment extends Fragment {
 
             userName.setText(sharedPrefs.getFirstName());
             userNameCard.setText(sharedPrefs.getFirstName());
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fm.beginTransaction().replace(R.id.fragmentContainer, new Item_Profile_Edit_Fragment()).addToBackStack("").commit();
+
+            }
+        });
         }
 
 

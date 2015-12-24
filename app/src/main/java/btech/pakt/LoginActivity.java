@@ -2,6 +2,7 @@ package btech.pakt;
 
 import android.content.Intent;
 
+import android.nfc.Tag;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -69,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         if(sharedPrefs.checkLoggedIn()){
 
             getUserData();
-
+            nextActivity();
 
         }
 
@@ -92,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onLogin(String accessToken, List<Permission> acceptedPermissions, List<Permission> declinedPermissions) {
                 // change the state of the button or do whatever you want
-                Log.i(TAG, "Logged in");
+                Log.i(TAG, "Facebook onLogin");
                 getUserData();
 
                 onFacebookAccessTokenChange(accessToken);
@@ -106,17 +107,22 @@ public class LoginActivity extends AppCompatActivity {
             public void onCancel() {
                 // user canceled the dialog
                 sharedPrefs.setLoggedIn(false);
+                Log.i(TAG, "Facebook onCancel");
             }
 
             @Override
             public void onFail(String reason) {
                 // failed to login
                 sharedPrefs.setLoggedIn(false);
+                Log.i(TAG, "Facebook onFail");
+                Log.i(TAG+"FB onFail", reason);
             }
 
             @Override
             public void onException(Throwable throwable) {
                 // exception from facebook
+                Log.i(TAG, "Facebook onException");
+                Log.i("FB Exception", throwable.getMessage());
             }
 
         };
@@ -139,27 +145,16 @@ public class LoginActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Toast.makeText(getApplicationContext(), dataSnapshot.getValue().toString(),Toast.LENGTH_LONG ).show();
+                Log.i(TAG + "fire", "onDataChange: " + dataSnapshot.getValue().toString());
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                Toast.makeText(getApplicationContext(),"Firebase: "+ firebaseError.getMessage(),Toast.LENGTH_LONG ).show();
+                Log.i(TAG+"Firebase","onCancelled: "+ firebaseError.getMessage());
 
             }
         });
 
-        Firebase.AuthResultHandler authResultHandler = new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-
-            }
-        };
         }
 
     @Override
@@ -177,19 +172,14 @@ public class LoginActivity extends AppCompatActivity {
         mSimpleFacebook.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
         Log.i(TAG, "onActivityResult");
-        nextActivity();
     }
 
     public void nextActivity() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplicationContext().startActivity(intent);
                 finish();
-            }
-        }, 300);
 
 
     }
@@ -231,8 +221,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.i(TAG, sharedPrefs.getFirstName());
         Log.i(TAG + " C_url", ": " + sharedPrefs.getCoverURL());
 
-        if (sharedPrefs.checkLoggedIn())
-            nextActivity();
+
     }
 
     private void onFacebookAccessTokenChange(String token){
@@ -242,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticated(AuthData authData) {
                     // The Facebook user is now authenticated with your Firebase app
-
+                    Log.i(TAG+"Firebase", "onAuthenticated");
                     // Authentication just completed successfully :)
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("provider", authData.getProvider());
@@ -254,6 +243,7 @@ public class LoginActivity extends AppCompatActivity {
                     ref.child("users").child(authData.getUid()).setValue(map);
 
                     sharedPrefs.setLoggedIn(true);
+                    nextActivity();
                 }
                 @Override
                 public void onAuthenticationError(FirebaseError error) {
