@@ -18,6 +18,8 @@ public class SharedPrefs {
     private static final String FIRST_NAME= "fName";
     private static final String MAIN_PIC= "mainPic";
     private static final String COVER_PIC = "coverURL";
+    private static final String AUTHUID= "authuid";
+    private static final String FB_TOKEN = "fbtoken";
 
     private static  final String PREFS_NAME = "sharedPrefs";
     private static  final String TAG = "sharedPrefs";
@@ -53,6 +55,18 @@ public class SharedPrefs {
         editor.apply();
     }
 
+    public void setAuthuid(String uid){
+        SharedPreferences.Editor editor = settingsPrefs.edit();
+        editor.putString(AUTHUID, uid);
+        editor.apply();
+    }
+
+    public void setFBToken(String token){
+        SharedPreferences.Editor editor = settingsPrefs.edit();
+        editor.putString(FB_TOKEN, token);
+        editor.apply();
+    }
+
 
     public void setCoverURL(String urll){
         SharedPreferences.Editor editor = settingsPrefs.edit();
@@ -85,12 +99,24 @@ public class SharedPrefs {
         return settingsPrefs.getString(COVER_PIC,"");
     }
 
+    public String getAuthuid(){
+
+        return settingsPrefs.getString(AUTHUID,"");
+    }
+
+    public String getFBTOKEN(){
+
+        return settingsPrefs.getString(FB_TOKEN,"");
+    }
+
 
 
     public void logOut(){
         SharedPreferences.Editor editor = settingsPrefs.edit();
         editor.putBoolean(LOGGEDIN, false);
         editor.apply();
+
+        setAuthuid("");
 
         OnLogoutListener onLogoutListener = new OnLogoutListener() {
 

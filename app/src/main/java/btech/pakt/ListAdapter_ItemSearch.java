@@ -1,7 +1,6 @@
 package btech.pakt;
 
 import android.app.Dialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -26,13 +24,13 @@ import java.util.List;
 /**
  * Created by Brennan on 9/9/2015.
  */
-public class Custom_Search_List_Adapter extends RecyclerView.Adapter<Custom_Search_List_Adapter.ItemsViewHolder> {
+public class ListAdapter_ItemSearch extends RecyclerView.Adapter<ListAdapter_ItemSearch.ItemsViewHolder> {
 
     List<Item_Description_Class> itemsList;
     Context con;
     int count = 0;
 
-    public Custom_Search_List_Adapter(List<Item_Description_Class> itemsList, Context con){
+    public ListAdapter_ItemSearch(List<Item_Description_Class> itemsList, Context con){
         this.itemsList = itemsList;
         this.con = con;
     }

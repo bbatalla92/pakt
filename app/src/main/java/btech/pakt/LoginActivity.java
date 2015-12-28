@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.LogRecord;
 
 public class LoginActivity extends AppCompatActivity {
@@ -150,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                Log.i(TAG+"Firebase","onCancelled: "+ firebaseError.getMessage());
+                Log.i(TAG + "Firebase", "onCancelled: " + firebaseError.getMessage());
 
             }
         });
@@ -233,16 +234,19 @@ public class LoginActivity extends AppCompatActivity {
                     // The Facebook user is now authenticated with your Firebase app
                     Log.i(TAG+"Firebase", "onAuthenticated");
                     // Authentication just completed successfully :)
-                    Map<String, String> map = new HashMap<String, String>();
+                    Map<String, Object> map = new HashMap<String, Object>();
                     map.put("provider", authData.getProvider());
-                    map.put("bio","");
+                    map.put("profileImageURL",sharedPrefs.getProPic());
+                    map.put("coverImageURL",sharedPrefs.getCoverURL());
                     map.put("lastLogin",dateFormat.format(date));
                     if(authData.getProviderData().containsKey("displayName")) {
                         map.put("displayName", authData.getProviderData().get("displayName").toString());
                     }
-                    ref.child("users").child(authData.getUid()).setValue(map);
+                    ref.child("users").child(authData.getUid()).updateChildren(map);
+
 
                     sharedPrefs.setLoggedIn(true);
+                    sharedPrefs.setAuthuid(authData.getUid());
                     nextActivity();
                 }
                 @Override

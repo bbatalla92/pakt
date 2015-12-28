@@ -1,7 +1,5 @@
 package btech.pakt;
 
-import android.app.Activity;
-
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -19,10 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -33,13 +27,11 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.sromku.simple.fb.entities.User;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import btech.pakt.fragments.ConversationLibraryFragment;
 import btech.pakt.fragments.History_Fragment;
 import btech.pakt.fragments.Item_Profile_Fragment;
+import btech.pakt.fragments.MessageFragment;
 import btech.pakt.fragments.Profile_Fragment;
 import btech.pakt.fragments.Search_Fragment;
 
@@ -51,6 +43,7 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
     Item_Profile_Fragment itemDesc;
     Search_Fragment searchFrag;
     History_Fragment historyFrag;
+    ConversationLibraryFragment conversationsFrag;
 
     // NavDrawer
     public static Drawer result;
@@ -94,6 +87,7 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
         itemDesc = new Item_Profile_Fragment();
         searchFrag = new Search_Fragment();
         historyFrag = new History_Fragment();
+        conversationsFrag = new ConversationLibraryFragment();
 
         fm.beginTransaction().add(R.id.fragmentContainer, profile, "home").commit();
 
@@ -208,8 +202,13 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
                             case "logOut":
                                 sharedPrefs.logOut();
                                 Intent i = new Intent(getApplicationContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                               getApplicationContext().startActivity(i);
+                                getApplicationContext().startActivity(i);
                                 finish();
+                                break;
+                            case "messages":
+                                if(!conversationsFrag.isVisible())
+                                fm.beginTransaction().replace(R.id.fragmentContainer, conversationsFrag).addToBackStack("toMessages").commit();
+
                                 break;
                             default:
                                 Toast.makeText(getApplicationContext(), drawerItem.getTag().toString(), Toast.LENGTH_LONG).show();

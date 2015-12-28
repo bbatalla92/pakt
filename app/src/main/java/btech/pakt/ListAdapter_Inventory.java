@@ -14,12 +14,12 @@ import java.util.Deque;
 /**
  * Created by Brennan on 8/27/2015.
  */
-public class CustomInventoryListAdapter extends BaseAdapter {
+public class ListAdapter_Inventory extends BaseAdapter {
 
     private Context context;
     private ArrayList items = new ArrayList<>();
 
-    public CustomInventoryListAdapter(Context con, ArrayList array){
+    public ListAdapter_Inventory(Context con, ArrayList array){
         this.context = con;
         this.items = array;
 

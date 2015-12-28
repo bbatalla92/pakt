@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ImageReader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,13 +22,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -37,12 +36,13 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import btech.pakt.R;
+import rapid.decoder.BitmapDecoder;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -58,6 +58,7 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
     ImageSwitcher iSwitcher;
     ImageButton deleteImage;
     Button save;
+    Spinner rateDropdown;
 
     // -------------
     int mainFlag = 0;
@@ -69,8 +70,6 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
     private static final int REQUEST_CAMERA = 2;
     private static final String TAG = "ITEM PROFILE EDIT";
     private static final int RESULT_OK = -1;
-
-
 
     public Item_Profile_Edit_Fragment() {
         // Required empty public constructor
@@ -105,11 +104,28 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
         save.setOnClickListener(this);
         deleteImage = (ImageButton) v.findViewById(R.id.deleteImage);
         deleteImage.setOnClickListener(this);
+        rateDropdown = (Spinner) v.findViewById(R.id.rentRateDropdown);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.rentRateOptions, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        rateDropdown.setAdapter(adapter);
+
+      rateDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+          @Override
+          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(TAG, parent.getItemAtPosition(position).toString());
+          }
+
+          @Override
+          public void onNothingSelected(AdapterView<?> parent) {
+
+          }
+      });
 
         iSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
-                // TODO -- Make images not thumbnails
                 ImageView imageView = new ImageView(getActivity().getApplicationContext());
                 if (imageArray.size() > 0) {
                     // Create a new ImageView set it's properties
@@ -180,7 +196,6 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
         builder.show();
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -189,9 +204,6 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
             if (requestCode == REQUEST_CAMERA) {
                 Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                if (thumbnail != null) {
-                //    thumbnail.compress(Bitmap.CompressFormat.PNG, 90, bytes);
-                }
                 File destination = new File(Environment.getExternalStorageDirectory(),
                         System.currentTimeMillis() + ".png");
                 FileOutputStream fo;
@@ -203,7 +215,14 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                imageArray.add(thumbnail);
+
+
+                Bitmap newImage = BitmapDecoder.from(thumbnail).scale(thumbnail.getWidth()*10,thumbnail.getHeight()*10).decode();
+
+
+
+
+                imageArray.add(newImage);
 
             } else if (requestCode == SELECT_FILE) {
                 Uri selectedImageUri = data.getData();
@@ -225,6 +244,9 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
                 options.inSampleSize = scale;
                 options.inJustDecodeBounds = false;
                 bm = BitmapFactory.decodeFile(selectedImagePath, options);
+                Log.i(TAG,"Bitmap: "+ bm.toString());
+
+                bm = BitmapDecoder.from(bm).scale(bm.getWidth()*10,bm.getHeight()*10).decode();
                 imageArray.add(bm);
 
             }
@@ -232,14 +254,9 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
         }
     }
 
-
     public void cheers(String msg){
         Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
     }
-
-
-
-
 
     @Override
     public void onClick(View v) {

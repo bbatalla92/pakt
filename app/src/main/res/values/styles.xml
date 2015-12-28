@@ -9,11 +9,11 @@
         <item name="colorPrimaryDark">@color/light_blue_700</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">@color/accent_color</item>
-        <!--<item name="android:alertDialogTheme">@style/AlertDialog</item>-->
+        <!--<item displayName="android:alertDialogTheme">@style/AlertDialog</item>-->
 
         <!-- remove action bar for toolbar instead -->
         <item name="android:windowActionBar">false</item>
-        <!--    Color of the name in the toolbar -->
+        <!--    Color of the displayName in the toolbar -->
         <item name="android:actionMenuTextColor">@color/black</item>
         <!-- Color of the overflow icon (three vertical dots) -->
         <item name="android:textColorSecondary">@color/black</item>
@@ -23,7 +23,7 @@
     <style name="MyCustomTabLayout" parent="" >
 
 
-     <!--   <item name="tabIndicatorColor">#1DE9B6</item>-->
+     <!--   <item displayName="tabIndicatorColor">#1DE9B6</item>-->
 
 
     </style>

@@ -20,5 +20,11 @@
 
     <string name="facebook_app_id">547993755357523</string>
 
+    <string-array name="rentRateOptions">
+        <item>per Hour</item>
+        <item>per Day</item>
+        <item>per Week</item>
+        <item>per Month</item>
+    </string-array>
 
 </resources>

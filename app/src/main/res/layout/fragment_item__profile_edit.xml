@@ -94,8 +94,9 @@
             app:met_floatingLabel="highlight"
             android:textSize="44sp" />
 
+
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_marginTop="20dp"
@@ -105,30 +106,53 @@
             app:met_primaryColor="@color/primary"
             app:met_errorColor="#ff0000"
             app:met_floatingLabel="highlight"
-
             android:gravity="center" />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="bottom">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:hint="Price Per Day"
+            android:hint="Price Per Day ($)"
+            android:inputType="number"
             android:id="@+id/itemRate"
             app:met_floatingLabel="highlight"
-            android:layout_marginTop="20dp"
             app:met_baseColor="@color/accent"
             app:met_primaryColor="@color/primary"
             app:met_errorColor="#ff0000"
             android:gravity="center" />
 
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:spinnerMode="dropdown"
+                android:id="@+id/rentRateDropdown">
+
+
+
+            </Spinner>
+
+
+        </LinearLayout>
+
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:hint="Safety Deposit"
+            android:hint="Safety Deposit ($)"
             app:met_floatingLabel="highlight"
             android:id="@+id/itemSD"
             android:layout_marginTop="20dp"
+            android:inputType="number"
             app:met_baseColor="@color/accent"
             app:met_primaryColor="@color/primary"
             app:met_errorColor="#ff0000"

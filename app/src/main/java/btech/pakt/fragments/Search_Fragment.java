@@ -15,7 +15,7 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-import btech.pakt.Custom_Search_List_Adapter;
+import btech.pakt.ListAdapter_ItemSearch;
 import btech.pakt.Item_Description_Class;
 import btech.pakt.R;
 
@@ -27,7 +27,7 @@ public class Search_Fragment extends Fragment {
     //Custom listview
     RecyclerView recView;
     List<Item_Description_Class> itemList = new ArrayList<>();
-    Custom_Search_List_Adapter listAdapter;
+    ListAdapter_ItemSearch listAdapter;
 
     //Layout Widgets
     SearchView search;
@@ -73,7 +73,7 @@ public class Search_Fragment extends Fragment {
         itemList.add(new Item_Description_Class("blah2", testItems));
 
 
-        listAdapter = new Custom_Search_List_Adapter(itemList, getActivity());
+        listAdapter = new ListAdapter_ItemSearch(itemList, getActivity());
 
         recView.setAdapter(listAdapter);
 
