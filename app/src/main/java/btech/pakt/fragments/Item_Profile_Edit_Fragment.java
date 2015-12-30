@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.CursorLoader;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -32,15 +33,24 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.firebase.client.Firebase;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import btech.pakt.FireBaseAPI;
 import btech.pakt.R;
+import btech.pakt.SharedPrefs;
 import rapid.decoder.BitmapDecoder;
 
 /**
@@ -58,11 +68,17 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
     ImageSwitcher iSwitcher;
     ImageButton deleteImage;
     Button save;
-    Spinner rateDropdown;
+    MaterialBetterSpinner rateDropdown;
+    Firebase baseRef;
+    String rate;
+    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    Date date = new Date();
+
 
     // -------------
-    int mainFlag = 0;
+
     ArrayList<Bitmap> imageArray = new ArrayList<>();
+    ArrayList<String> bmpStrings = new ArrayList<>();
     int currentImage = 0;
 
     //---------- Constants ------------------------------
@@ -100,11 +116,12 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
         addImage.setOnClickListener(this);
         iSwitcher = (ImageSwitcher) v.findViewById(R.id.imageSwitch);
         iSwitcher.setOnClickListener(this);
+        baseRef = new Firebase((new FireBaseAPI()).getBase());
         save = (Button) v.findViewById(R.id.saveButton);
         save.setOnClickListener(this);
         deleteImage = (ImageButton) v.findViewById(R.id.deleteImage);
         deleteImage.setOnClickListener(this);
-        rateDropdown = (Spinner) v.findViewById(R.id.rentRateDropdown);
+        rateDropdown = (MaterialBetterSpinner) v.findViewById(R.id.rentRateDropdown);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.rentRateOptions, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -115,6 +132,7 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
           @Override
           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, parent.getItemAtPosition(position).toString());
+              rate = parent.getItemAtPosition(position).toString();
           }
 
           @Override
@@ -155,7 +173,7 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
                 if (currentImage > numImages)
                     currentImage = 0;
 
-                if( mainFlag == currentImage)
+                if( currentImage == 0)
                     mainImage.setImageResource(R.mipmap.ic_star_grey600_24dp);
                 else
                     mainImage.setImageResource(R.mipmap.ic_star_outline_grey600_24dp);
@@ -219,8 +237,8 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
 
                 Bitmap newImage = BitmapDecoder.from(thumbnail).scale(thumbnail.getWidth()*10,thumbnail.getHeight()*10).decode();
 
-
-
+                if(!newImage.isRecycled())
+                 bmpStrings.add(bitmapToString(newImage));
 
                 imageArray.add(newImage);
 
@@ -267,8 +285,10 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
                 selectImage();
                 break;
             case R.id.mainImage:
-                if(currentImage != mainFlag) {
-                    mainFlag = currentImage;
+                if(currentImage != 0) {
+                    Bitmap temp = imageArray.get(0);
+                    imageArray.add(0, imageArray.get(0));
+                    imageArray.add(currentImage, temp);
                     cheers("Main Image has changed!");
                     mainImage.setImageResource(R.mipmap.ic_star_grey600_24dp);
                 }
@@ -280,6 +300,32 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
                             if (!safetyD.getText().toString().matches("")) {
                                 cheers("Item Added");
                                 //@todo -- Create item in Database
+
+                                String titleS = title.getText().toString();
+                                String descriptionS = descritpion.getText().toString();
+                                String rentPrice = rentRate.getText().toString();
+                                String deposit = safetyD.getText().toString();
+
+
+
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("title",titleS);
+                                map.put("description",descriptionS);
+                                map.put("rentPrice",rentPrice);
+                                map.put("deposit", deposit);
+                                map.put("rentRate", rate);
+                                map.put("images",bmpStrings);
+                                map.put("ownerAuth", (new SharedPrefs(getContext())).getAuthuid());
+                                map.put("datePosted", dateFormat.format(date));
+                                map.put("status", "0");
+
+                                Firebase prodRef = new Firebase(baseRef+"products");//.push().setValue(map);
+                                prodRef.push().setValue(map);
+                                String name = prodRef.getKey();
+
+                                baseRef.child("users").child((new SharedPrefs(getContext())).getAuthuid()).child("inventoryKeys").push().setValue(name);
+
+
                             } else {
                                 safetyD.setError("Missing Safety Deposit");
                             }
@@ -300,7 +346,15 @@ public class Item_Profile_Edit_Fragment extends Fragment implements View.OnClick
     }
 
 
-
+    private String bitmapToString(Bitmap bm){
+        Bitmap bmp = Bitmap.createBitmap(bm);
+        bm.recycle();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bmp.recycle();
+        byte[] byteArray = stream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
 
 
 

@@ -1,6 +1,9 @@
 package btech.pakt;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +61,13 @@ public class ListAdapter_Inventory extends BaseAdapter {
             textView.setText(ob.getTitle());
 
 
-                image.setImageResource((Integer) ob.getImage().get(0));
+            byte[] im = Base64.decode(ob.getImages().get(0), Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(im, 0, im.length);
+
+            if (bitmap != null)
+                image.setImageBitmap(bitmap );
+            else
+                image.setImageResource(R.mipmap.ic_launcher);
 
         }else {
             gridView = (View) convertView;

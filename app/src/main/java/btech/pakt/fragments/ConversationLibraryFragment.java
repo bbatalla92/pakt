@@ -150,6 +150,7 @@ public class ConversationLibraryFragment extends Fragment {
         if(list.size() > 0) {
             noMessagesText.setVisibility(View.GONE);
             ListAdapter_ConversationLibrary adapter = new ListAdapter_ConversationLibrary(getContext(), R.layout.conversation_list_layout, list);
+
             conList.setAdapter(adapter);
         }
 
@@ -169,5 +170,6 @@ public class ConversationLibraryFragment extends Fragment {
             }
         });
     }
+
 
 }

@@ -122,8 +122,8 @@ public class Item_Profile_Fragment extends Fragment{
 
         itemTitle.setText(item.getTitle());
         itemDescription.setText(item.getDescription());
-        itemPPD.setText("$" + item.getPricePerDay()+" per day");
-        itemSD.setText("Safety Deposit: $" + item.getSafeDeposit());
+        itemPPD.setText(item.getRentPrice() + " "+item.getRentRate());
+        itemSD.setText("Safety Deposit: $" + item.getDeposit());
 
     }
 

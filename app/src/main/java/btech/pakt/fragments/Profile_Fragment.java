@@ -83,18 +83,7 @@ public class Profile_Fragment extends Fragment {
 
     public Profile_Fragment() {
         // Required empty public constructor
-        testImages = new ArrayList<Integer>();
-        testImages.add(R.mipmap.ic_launcher);
-        testImages.add(R.mipmap.ic_person_grey600_24dp);
-        testImages.add(R.drawable.material_drawer_badge);
 
-        items.add(new Item_Description_Class("Item1", "This is item1", 22, 100, testImages));
-        items.add(new Item_Description_Class("Item2", "This is item2", 22, 100, testImages));
-        items.add(new Item_Description_Class("Item3", "This is item3", 22, 100, testImages));
-        items.add(new Item_Description_Class("Item4", "This is item4", 22, 100, testImages));
-        items.add(new Item_Description_Class("Item5", "This is item5", 22, 100, testImages));
-        items.add(new Item_Description_Class("Item6", "This is item6", 22, 100, testImages));
-        items.add(new Item_Description_Class("Item7", "This is item7", 22, 100, testImages));
 
 
 

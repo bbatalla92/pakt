@@ -98,7 +98,11 @@ dependencies {
     compile 'rapid.decoder:library:0.3.0'
     compile 'rapid.decoder:jpeg-decoder:0.3.0'
     compile 'rapid.decoder:png-decoder:0.3.0'
-}
+
+
+    compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
+    }
+
 
 
 

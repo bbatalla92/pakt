@@ -184,10 +184,12 @@ public class MainActivity extends FragmentActivity implements AppCompatCallback{
                                 if (!profile.isVisible()) {
                                     //Pop all the back stack
 
-                                    fm.popBackStack();
-                                    fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-                                }else
+                                   // fm.beginTransaction().replace(R.id.fragmentContainer, profile).commit();
+               //                     fm.popBackStack("home", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                    fm.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                                }
 
                                 break;
                             case "search":

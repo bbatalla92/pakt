@@ -2,7 +2,10 @@ package btech.pakt;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -52,7 +55,11 @@ public class ListAdapter_ItemSearch extends RecyclerView.Adapter<ListAdapter_Ite
         final Item_Description_Class object = itemsList.get(i);
 
         view.Title.setText(object.getTitle());
-       view.IconImage.setImageResource((Integer) object.getImage().get(0));
+
+        byte[] im = Base64.decode(object.getImages().get(0), Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(im, 0, im.length);
+
+        view.IconImage.setImageBitmap(bitmap);
 
 
 
@@ -80,7 +87,7 @@ public class ListAdapter_ItemSearch extends RecyclerView.Adapter<ListAdapter_Ite
     public void imagePopup(int i){
 
         Item_Description_Class object = itemsList.get(i);
-        final ArrayList imageList = object.getImage();
+        final ArrayList<String> imageList = object.getImages();
         final int numImages = imageList.size()-1;
 
 
@@ -96,7 +103,7 @@ public class ListAdapter_ItemSearch extends RecyclerView.Adapter<ListAdapter_Ite
         ImageButton prevImage = (ImageButton) settingsDialog.findViewById(R.id.imageLeft);
 
         final ImageView image = (ImageView) settingsDialog.findViewById(R.id.iconSearchImage);
-        image.setImageResource((Integer) imageList.get(0));
+        image.setImageBitmap(stringToBitmap(imageList.get(0)));
 
 
         image.setOnTouchListener(new View.OnTouchListener() {
@@ -105,7 +112,7 @@ public class ListAdapter_ItemSearch extends RecyclerView.Adapter<ListAdapter_Ite
 
                 if(count > numImages)
                     count = 0;
-                image.setImageResource((Integer) imageList.get(count++));
+                image.setImageBitmap(stringToBitmap(imageList.get(count++)));
                 Log.i("ADAPTER", ""+count);
                 return false;
             }
@@ -115,7 +122,12 @@ public class ListAdapter_ItemSearch extends RecyclerView.Adapter<ListAdapter_Ite
 
 
 
+    private Bitmap stringToBitmap(String image){
+        byte[] im = Base64.decode(image, Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(im, 0, im.length);
 
+        return bitmap;
+    }
 
 
 
